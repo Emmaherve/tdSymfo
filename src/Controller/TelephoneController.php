@@ -108,13 +108,10 @@ public function index()
 
 
 
-public function search_tel($marque)
+public function search_tel($search)
 {
-  // $searchTel = $this->getDoctrine()->getRepository(Telephone::class)->find($marque);
-  // $searchTel->getSearch($marque);
-
   $repo = $this->getDoctrine()->getRepository(Telephone::class);
-  $searchTel = $repo -> findSearch($marque);
+  $searchTel = $repo -> findSearch($search);
 
   return $this->render('search.html.twig', array(
     "searchTel" => $searchTel,

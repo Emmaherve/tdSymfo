@@ -41,26 +41,22 @@ class TelephoneRepository extends ServiceEntityRepository
     }
 
 
-    public function findSearch($search)
-    {
-        // doit renvoyer un tableau d'entités correspondantes à la contrainte
-        // comme la fonction findBy par exemple
-        // récupération de l'em
-        $em = $this->getEntityManager();
+public function findSearch($search)
+  {
 
-        // création de la requête
-        $query = $em->createQuery(
-            'SELECT s
-            FROM App\Entity\Telephone s
-            WHERE s.telephone = termeSearch'
-        )->setParameter('termeSearch', $search);
+    $em = $this->getEntityManager();
 
-        // exécution et renvoie de la requête sous la forme de tableau d'entités
-        return $query->execute();
+    $query = $em->createQuery(
+               'SELECT t
+               FROM App\Entity\Telephone t
+               WHERE t.marque LIKE :search
+               ORDER BY t.marque ASC'
+             )->setParameter('search','%'.$search.'%');
 
-    }
+     // exécution et renvoie de la requête sous la forme de tableau d'entités
+     return $query->execute();
 
-
+}
 
 
     // /**

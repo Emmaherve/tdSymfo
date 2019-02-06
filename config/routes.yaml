@@ -49,5 +49,5 @@ telephone_taille: #je veux récupérer tous les téléphones dont la taille est 
     controller: App\Controller\TelephoneController::index
 
 telephone_recherche: #je veux effectuer une recherche de termes
-    path: /telephone/search/{marque}
+    path: /telephone/search/{search}
     controller: App\Controller\TelephoneController::search_tel
