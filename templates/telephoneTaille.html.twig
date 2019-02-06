@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+  <h1>Tous les téléphones dont la taille est supérieure à 5,5 pouces</h1>
+  <ul>
+    {% for telephone in tailleTel %}
+        <li>{{ telephone.marque }} | {{telephone.type}} | {{telephone.taille}}</li>
+    {% endfor %}
+  </ul>
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+hello_index: #id de la route
+    path: /hello/{prenom}/{age} #chemin par lequel j'accède au controller; variable :prenom
+    controller: App\Controller\HelloController::index_perso #Nouveau controller + action à executer
+    requirements :
+      prenom: '[A-Za-z]+' #la chaine de caractère doit être une série de lettre
+      age: '[0-9]+' #Entier positif
+
+hello_index_basic: #id de la route
+    path: /hello/ #chemin par lequel j'accède au controller; variable :prenom
+    controller: App\Controller\HelloController::index_basic #Nouveau controller + action à executer
+
+hello_erreur_index:
+    path: /hello/{prenom}/
+    controller: App\Controller\HelloController::index_erreur
+    requirements:
+      prenom: '[A-Za-z]+'
+
+
+################################################################################
+
+
+
+telephone_perso_index: #ajout d'un telephone à la base de donées
+    path: /telephone/new/{marque}/{type}/{taille}
+    controller: App\Controller\TelephoneController::index_tel_perso
+
+telephone_index:
+    path: /telephone/add
+    controller: App\Controller\TelephoneController::index_tel
+
+telephone_modif: #modifie les éléments du téléphone avec l'id choisi
+    path: /telephone/modify/{id}/{marque}/{type}/{taille}
+    controller: App\Controller\TelephoneController::modify_tel
+
+telephone_delete: #Supprime le téléphone avec l'id choisi
+    path: /telephone/delete/{id}
+    controller: App\Controller\TelephoneController::delete_tel
+
+telephone_all: #renvoie tous les téléphones
+    path: /telephone
+    controller: App\Controller\TelephoneController::all_tel
+
+
+################################################################################
+
+
+telephone_taille: #je veux récupérer tous les téléphones dont la taille est supérieure à une certaine valeur
+    path: /telephone/value
+    controller: App\Controller\TelephoneController::index
+
+telephone_recherche: #je veux effectuer une recherche de termes
+    path: /telephone/search/{marque}
+    controller: App\Controller\TelephoneController::search_tel

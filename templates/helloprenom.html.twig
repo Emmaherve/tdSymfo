@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  Hello
+    <ul>
+      {% for prenom in tableau_prenom %}
+        <li> {{ prenom }} </li>
+      {% endfor %}
+    </ul>
+    
+{% endblock %}
