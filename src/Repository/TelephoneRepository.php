@@ -59,6 +59,33 @@ public function findSearch($search)
 }
 
 
+public function findSearchTel($search,$searchType)
+  {
+
+    $em = $this->getEntityManager();
+
+    $query = $em->createQuery(
+               'SELECT t
+               FROM App\Entity\Telephone t
+               WHERE t.marque LIKE :search
+               ORDER BY t.marque ASC'
+             )->setParameter('search','%'.$search.'%');
+    $query = $em->createQuery(
+               'SELECT t
+               FROM App\Entity\Telephone t
+               WHERE t.type LIKE :searchType
+               ORDER BY t.type ASC'
+             )->setParameter('searchType','%'.$searchType.'%');
+
+     // exécution et renvoie de la requête sous la forme de tableau d'entités
+     return $query->execute();
+
+}
+
+
+
+
+
     // /**
     //  * @return Telephone[] Returns an array of Telephone objects
     //  */

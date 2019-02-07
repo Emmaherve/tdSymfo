@@ -120,5 +120,22 @@ public function search_tel($search)
 }
 
 
+public function globaleSearch_tel($search, $searchType)
+{
+  $repo = $this->getDoctrine()->getRepository(Telephone::class);
+  $searchTel = $repo -> findSearchTel($search, $searchType);
+
+  return $this->render('search.html.twig', array(
+    "searchTel" => $searchTel,
+
+    )
+  );
+}
+
+
+
+
+
+
 }
 ?>
