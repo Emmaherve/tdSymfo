@@ -10,12 +10,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //Pour pouvoir utiliser l’entité Telephone
 use App\Entity\Telephone;
 
+//Pour les formulaires
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
+use Symfony\Component\HttpFoundation\Request;
+
 // notre controller doit forcément hériter de la classe Controller ("use" ci-dessus)
 // Le nom de la classe doit être exactement le même que celui du fichier
 class TelephoneController extends Controller
 {
 
-  private function index_tel($marque,$type,$taille) //add function
+  public function index_tel($marque,$type,$taille) //add function
   {
    $tel = new Telephone();
 
@@ -40,17 +47,16 @@ class TelephoneController extends Controller
     ));
   }
 
-  public function modify_tel($marque,$type,$taille,$id){
-  $em = $this->getDoctrine()->getManager();
-  $tel = $this->getDoctrine()->getRepository(Telephone::class)->find($id);
-  $tel->setMarque($marque);
-  $tel->setType($type);
-  $tel->setTaille($taille);
-  $tel->getId($id);
-  $em->flush();
-
-
-  return $this->render('tel.html.twig', array(
+  public function modify_tel($marque,$type,$taille,$id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tel = $this->getDoctrine()->getRepository(Telephone::class)->find($id);
+    $tel->setMarque($marque);
+    $tel->setType($type);
+    $tel->setTaille($taille);
+    $tel->getId($id);
+    $em->flush();
+    return $this->render('tel.html.twig', array(
       "marque" => $marque,
       "type" => $type,
       "taille" => $taille,
@@ -133,6 +139,59 @@ public function globaleSearch_tel($search, $searchType)
 }
 
 
+
+public function new_tel(Request $request)
+{
+    // Nous créons une entité Telephone
+    $tel = new Telephone();
+
+    // Nous créons un formulaire A PARTIR DE $tel
+    // ce qui permettra à Symfony d'hydrater (remplir) cette entité une fois que le formulaire sera validé...
+    $form = $this->createFormBuilder($tel)
+        // ... c'est pour cette raison qu'on des noms de champs qui correspondent à l'entité :
+        // Symfony les reconnait et fait le lien directement
+        // Nous précisons aussi le type de champs (TextType::class, NumberType::class)
+        ->add('marque', TextType::class)
+        ->add('type', TextType::class)
+        ->add('taille', NumberType::class)
+        // Et le petit bouton sauvegarde, sur lequel nous écrivons "Création"
+        ->add('save', SubmitType::class, array('label' => 'Création'))
+        // getForm permet de créer l'objet formulaire en lui-même
+        ->getForm();
+
+
+
+      // nous récupérons ici les informations du formulaire validée
+      // c'est-à-dire l'équivalent du $_POST
+      // ... et ce, grâce à l'objet $request
+      // qui représente les informations sur la requête HTTP reçue (voir l'explication après le code)
+      $form->handleRequest($request);
+
+
+      // Si nous venons de valider le formulaire et s'il est valide (problèmes de type, etc)
+      if ($form->isSubmitted() && $form->isValid()) {
+        // nous enregistrons directement l'objet $tel !
+        // En effet, il a été hydraté grâce au paramètre donné à la méthode createFormBuilder !
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($tel);
+        $em->flush();
+        // nous redirigeons l'utilisateur vers la route /telephone/
+        // nous utilisons ici l'identifiant de la route, créé dans le fichier yaml
+        // (il est peut-être différent pour vous, adaptez en conséquence)
+        // extrèmement pratique : si nous devons changer l'url en elle-même,
+        // nous n'avons pas à changer nos contrôleurs, mais juste les fichiers de configurations yaml
+        return $this->redirectToRoute('telephone_index');
+      }
+
+
+    // renvoie classique à Twig...
+    return $this->render('new.html.twig', array(
+    // en renvoyant l'objet qui va bien à partir de la méthode createView
+    'form' => $form->createView(),
+    )
+  );
+}
 
 
 

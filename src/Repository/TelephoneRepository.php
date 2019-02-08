@@ -21,8 +21,8 @@ class TelephoneRepository extends ServiceEntityRepository
 
 
     // dans le repository
-    public function findBiggerSizeThan($value)
-    {
+public function findBiggerSizeThan($value)
+{
         // doit renvoyer un tableau d'entités correspondantes à la contrainte
         // comme la fonction findBy par exemple
         // récupération de l'em
@@ -81,6 +81,7 @@ public function findSearchTel($search,$searchType)
      return $query->execute();
 
 }
+
 
 
 

@@ -48,12 +48,19 @@ telephone_taille: #je veux récupérer tous les téléphones dont la taille est 
     path: /telephone/value
     controller: App\Controller\TelephoneController::index
 
-telephone_recherche: #je veux effectuer une recherche de termes
+telephone_recherche: #je veux effectuer une recherche de marque
     path: /telephone/search/{search}
     controller: App\Controller\TelephoneController::search_tel
 
 
-
-telephone_globale_recherche: #je veux effectuer une recherche de termes
+telephone_globale_recherche: #je veux effectuer une recherche de marques et types
     path: /telephone/search/{search}/{searchType}
     controller: App\Controller\TelephoneController::globaleSearch_tel
+
+
+################################################################################
+
+
+telephone_new: #je veux créer un formulaire de création de téléphone à cette adresse
+    path: /telephone/new
+    controller: App\Controller\TelephoneController::new_tel

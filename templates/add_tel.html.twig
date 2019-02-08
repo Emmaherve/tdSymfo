@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+  <h1>Vous avez ajouté un téléphone</h1>
+  <ul>
+    {% for telephone in searchTel %}
+        <li>{{ telephone.marque }} | {{telephone.type}} | {{telephone.taille}}</li>
+    {% endfor %}
+  </ul>
+
+
+{% endblock %}
