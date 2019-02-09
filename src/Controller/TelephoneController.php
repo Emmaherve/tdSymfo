@@ -181,7 +181,7 @@ public function new_tel(Request $request)
         // (il est peut-être différent pour vous, adaptez en conséquence)
         // extrèmement pratique : si nous devons changer l'url en elle-même,
         // nous n'avons pas à changer nos contrôleurs, mais juste les fichiers de configurations yaml
-        return $this->redirectToRoute('telephone_index');
+        return $this->redirectToRoute('telephone_all');
       }
 
 
