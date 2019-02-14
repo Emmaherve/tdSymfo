@@ -9,13 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //Pour pouvoir utiliser l’entité Telephone
 use App\Entity\Telephone;
+use App\Form\TelephoneType;
 
-//Pour les formulaires
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+// //Pour les formulaires
+// use Symfony\Component\Form\Extension\Core\Type\TextType;
+// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+// use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\HttpFoundation\CompoTelephoneForm;
 
 // notre controller doit forcément hériter de la classe Controller ("use" ci-dessus)
 // Le nom de la classe doit être exactement le même que celui du fichier
@@ -47,22 +50,22 @@ class TelephoneController extends Controller
     ));
   }
 
-  public function modify_tel($marque,$type,$taille,$id)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $tel = $this->getDoctrine()->getRepository(Telephone::class)->find($id);
-    $tel->setMarque($marque);
-    $tel->setType($type);
-    $tel->setTaille($taille);
-    $tel->getId($id);
-    $em->flush();
-    return $this->render('tel.html.twig', array(
-      "marque" => $marque,
-      "type" => $type,
-      "taille" => $taille,
-    )
-  );
-}
+  // public function modify_tel($marque,$type,$taille,$id)
+  // {
+  //   $em = $this->getDoctrine()->getManager();
+  //   $tel = $this->getDoctrine()->getRepository(Telephone::class)->find($id);
+  //   $tel->setMarque($marque);
+  //   $tel->setType($type);
+  //   $tel->setTaille($taille);
+  //   $tel->getId($id);
+  //   $em->flush();
+  //   return $this->render('tel.html.twig', array(
+  //     "marque" => $marque,
+  //     "type" => $type,
+  //     "taille" => $taille,
+  //     )
+  //   );
+  // }
 
 public function delete_tel($id) //Supprime le téléphone avec l'id entré
 {
@@ -147,18 +150,25 @@ public function new_tel(Request $request)
 
     // Nous créons un formulaire A PARTIR DE $tel
     // ce qui permettra à Symfony d'hydrater (remplir) cette entité une fois que le formulaire sera validé...
-    $form = $this->createFormBuilder($tel)
-        // ... c'est pour cette raison qu'on des noms de champs qui correspondent à l'entité :
-        // Symfony les reconnait et fait le lien directement
-        // Nous précisons aussi le type de champs (TextType::class, NumberType::class)
-        ->add('marque', TextType::class)
-        ->add('type', TextType::class)
-        ->add('taille', NumberType::class)
-        // Et le petit bouton sauvegarde, sur lequel nous écrivons "Création"
-        ->add('save', SubmitType::class, array('label' => 'Création'))
-        // getForm permet de créer l'objet formulaire en lui-même
-        ->getForm();
 
+
+
+    // $form = $this->createFormBuilder($tel)
+    //     // ... c'est pour cette raison qu'on des noms de champs qui correspondent à l'entité :
+    //     // Symfony les reconnait et fait le lien directement
+    //     // Nous précisons aussi le type de champs (TextType::class, NumberType::class)
+    //     ->add('marque', TextType::class)
+    //     ->add('type', TextType::class)
+    //     ->add('taille', NumberType::class)
+    //     // Et le petit bouton sauvegarde, sur lequel nous écrivons "Création"
+    //     ->add('save', SubmitType::class, array('label' => 'Création'))
+    //     // getForm permet de créer l'objet formulaire en lui-même
+    //     ->getForm();
+
+    // GRACE A LA CREATION DU FICHIER TelephoneType NOUS REMPLACONS LES LIGNES PRECEDENTES PAR CELLE-CI:
+
+      // Nous précisons ici que nous voulons utiliser `TelephoneType` et hydrater $tel
+      $form = $this->createForm(TelephoneType::class, $tel);
 
 
       // nous récupérons ici les informations du formulaire validée
@@ -193,6 +203,40 @@ public function new_tel(Request $request)
   );
 }
 
+
+
+public function modify_tel(Request $request, $id)
+{
+
+    $em = $this->getDoctrine()->getManager();
+    $tel = $this->getDoctrine()->getRepository(Telephone::class)->findOneById($id);
+    $tel->getId($id);
+    $em->flush();
+
+    // $tel = new Telephone();
+    $form = $this->createForm(TelephoneType::class, $tel);
+    $form->handleRequest($request);
+
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $tel->getId($id);
+        $em->persist($tel);
+
+        $em->flush();
+
+
+      return $this->redirectToRoute('telephone_all');
+
+    }
+
+    // renvoie classique à Twig...
+    return $this->render('new.html.twig', array(
+    // en renvoyant l'objet qui va bien à partir de la méthode createView
+    'form' => $form->createView(),
+    )
+  );
+}
 
 
 

@@ -28,9 +28,9 @@ telephone_index:
     path: /telephone/add
     controller: App\Controller\TelephoneController::index_tel
 
-telephone_modif: #modifie les éléments du téléphone avec l'id choisi
-    path: /telephone/modify/{id}/{marque}/{type}/{taille}
-    controller: App\Controller\TelephoneController::modify_tel
+# telephone_modif: #modifie les éléments du téléphone avec l'id choisi
+#     path: /telephone/modify/{id}/{marque}/{type}/{taille}
+#     controller: App\Controller\TelephoneController::modify_tel
 
 telephone_delete: #Supprime le téléphone avec l'id choisi
     path: /telephone/delete/{id}
@@ -64,3 +64,7 @@ telephone_globale_recherche: #je veux effectuer une recherche de marques et type
 telephone_new: #je veux créer un formulaire de création de téléphone à cette adresse
     path: /telephone/new
     controller: App\Controller\TelephoneController::new_tel
+
+telephone_modify:
+    path: /telephone/modify/{id}
+    controller: App\Controller\TelephoneController::modify_tel
