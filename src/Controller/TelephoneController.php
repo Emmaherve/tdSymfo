@@ -208,16 +208,17 @@ public function new_tel(Request $request)
 public function modify_tel(Request $request, $id)
 {
 
+// On récupère le téléphone avec l'id correspondant(celui qui a été entré dans l'url)
     $em = $this->getDoctrine()->getManager();
     $tel = $this->getDoctrine()->getRepository(Telephone::class)->findOneById($id);
     $tel->getId($id);
     $em->flush();
 
-    // $tel = new Telephone();
+
     $form = $this->createForm(TelephoneType::class, $tel);
     $form->handleRequest($request);
 
-
+//On affiche le formulaire avec les infos du téléphones rentrés automatiquement dans les champs
     if ($form->isSubmitted() && $form->isValid()) {
 
         $tel->getId($id);
@@ -225,7 +226,7 @@ public function modify_tel(Request $request, $id)
 
         $em->flush();
 
-
+//On affiche tous les téléphone : on remarque que le téléphone à l'id correspondant a été modifié
       return $this->redirectToRoute('telephone_all');
 
     }
