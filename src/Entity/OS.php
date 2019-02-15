@@ -18,16 +18,19 @@ class OS
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $surnom;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(2005)      
      */
     private $annee;
 
