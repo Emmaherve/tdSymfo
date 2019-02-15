@@ -68,3 +68,13 @@ telephone_new: #je veux créer un formulaire de création de téléphone à cett
 telephone_modify:
     path: /telephone/modify/{id}
     controller: App\Controller\TelephoneController::modify_tel
+
+
+################################################################################
+
+o_s_new: #je veux créer un formulaire de création de téléphone à cette adresse
+    path: /os/new
+    controller: App\Controller\OSController::new
+o_s_index: #je veux créer un formulaire de création de téléphone à cette adresse
+    path: /os/index
+    controller: App\Controller\OSController::index

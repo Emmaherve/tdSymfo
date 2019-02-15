@@ -83,13 +83,6 @@ public function findSearchTel($search,$searchType)
 }
 
 
-public function modif($id)
-  {
-
-  }
-
-
-
     // /**
     //  * @return Telephone[] Returns an array of Telephone objects
     //  */

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New OS{% endblock %}
+
+{% block body %}
+    <h1>Create new OS</h1>
+
+    {{ include('os/_form.html.twig') }}
+
+    <a href="{{ path('o_s_index') }}">back to list</a>
+{% endblock %}

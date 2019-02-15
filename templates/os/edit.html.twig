@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit OS{% endblock %}
+
+{% block body %}
+    <h1>Edit OS</h1>
+
+    {{ include('os/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('o_s_index') }}">back to list</a>
+
+    {{ include('os/_delete_form.html.twig') }}
+{% endblock %}

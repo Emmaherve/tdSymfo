@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OS index{% endblock %}
+
+{% block body %}
+    <h1>OS index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Surnom</th>
+                <th>Annee</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for o in o_ss %}
+            <tr>
+                <td>{{ o.id }}</td>
+                <td>{{ o.nom }}</td>
+                <td>{{ o.surnom }}</td>
+                <td>{{ o.annee }}</td>
+                <td>
+                    <a href="{{ path('o_s_show', {'id': o.id}) }}">show</a>
+                    <a href="{{ path('o_s_edit', {'id': o.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('o_s_new') }}">Create new</a>
+{% endblock %}
