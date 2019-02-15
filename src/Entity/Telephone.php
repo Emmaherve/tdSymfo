@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TelephoneRepository")
@@ -18,16 +19,21 @@ class Telephone
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
+
     private $marque;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $type;
 
     /**
      * @ORM\Column(type="decimal", precision=2, scale=1)
+     * @Assert\LessThanOrEqual(7)
+     * @Assert\GreaterThanOrEqual(3)     
      */
     private $taille;
 
@@ -71,4 +77,5 @@ class Telephone
 
         return $this;
     }
+
 }

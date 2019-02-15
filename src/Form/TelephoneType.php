@@ -4,14 +4,17 @@
 namespace App\Form;
 
 use App\Entity\Telephone;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 //Pour les formulaires
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 
 
 // une classe Type hérite toujours de la classe abstraite AbstractType
@@ -29,6 +32,7 @@ class TelephoneType extends AbstractType
             ->add('taille')
             ->add('save', SubmitType::class, array('label' => 'Création'))
         ;
+
     }
 
     // spécifications des options obligatoires/facultatives.
@@ -40,9 +44,32 @@ class TelephoneType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Telephone::class,
         ]);
+
     }
+
+    public function taille(ValidatorInterface $validator)
+{
+    $taille = new Taille();
+
+    // ... do something to the $author object
+
+    $errors = $validator->validate($taille);
+
+    if (count($errors) > 0) {
+        /*
+         * Uses a __toString method on the $errors variable which is a
+         * ConstraintViolationList object. This gives us a nice string
+         * for debugging.
+         */
+        $errorsString = (string) $errors;
+
+        return new Response($errorsString);
+    }
+
+    return new Response('The author is valid! Yes!');
 }
 
 
+}
 
 ?>
